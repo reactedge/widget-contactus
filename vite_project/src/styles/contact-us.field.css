@@ -1,0 +1,29 @@
+.contact__field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+label {
+    margin-bottom: 0.25rem;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input,
+textarea {
+    padding: 0.7rem;
+}
+
+select {
+    padding: 1rem 0.7rem;
+}
+
+.contact__actions {
+    margin-top: 1rem;
+}
