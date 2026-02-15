@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import ContactusWidget from "./ContactusWidget.tsx";
+import ContactUsWidget from "./ContactUsWidget.tsx";
 import {activity} from "./activity";
 import {ensureGlobalStyle} from "./lib/style.ts";
 import {getMountedHost} from "./widget-runtime/lib/hostReader.ts";
@@ -9,8 +9,8 @@ export async function mountWidget(hostElement: HTMLElement) {
 
     ensureGlobalStyle('reactedge-contactus-css', '/widget/contactus.css');
 
-    activity('bootstrap', 'ContactUs Widget mounted', hostElement);
+    activity('bootstrap', 'Widget mounted', hostElement);
 
     const root = createRoot(mountedHost);
-    root.render(<ContactusWidget host={hostElement} />);
+    root.render(<ContactUsWidget host={hostElement} />);
 }

@@ -11,11 +11,11 @@ export function useWidgetConfig(
         const integrationConfig = readIntegrationConfig()
 
         if (!baseConfig) {
-            activity('bootstrap', '[ContactUs] Widget is not correctly configured', null, 'error');
+            activity('bootstrap', 'Widget is not correctly configured', null, 'error');
             return null;
         }
 
-        activity('bootstrap', '[ContactUs] Widget config loaded', {
+        activity('bootstrap', 'Widget config loaded', {
             ...baseConfig,
             cloudflareKey: integrationConfig.integrations.cloudflare.siteKey
         });
