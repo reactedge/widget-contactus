@@ -1,5 +1,5 @@
 import { isActivityEnabled } from './activity.guard';
-import {WIDGET_ID} from "../ContactUsWidget.tsx";
+import {WIDGET_ID} from "../mountWidget.tsx";
 
 type Level = 'info' | 'warn' | 'error';
 

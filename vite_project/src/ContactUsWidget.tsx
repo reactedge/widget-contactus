@@ -6,8 +6,6 @@ type Props = {
     host: HTMLElement
 }
 
-export const WIDGET_ID = 'ContactUs';
-
 export default function ContactUsWidget({host}: Props) {
     const config = useWidgetConfig(host);
 
