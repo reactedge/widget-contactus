@@ -12,6 +12,10 @@ export interface ContactCategory {
     label: string;
 }
 
+export interface ContactUsRawConfig {
+    data: ContactUsConfig
+}
+
 export interface ContactUsConfig {
     title?: string;
     intro?: string;

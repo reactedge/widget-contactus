@@ -1,30 +1,55 @@
-import {useMemo} from "react";
-import {readIntegrationConfig, readWidgetConfig} from "../ContactUsConfig.ts";
-import type {ContactUsConfig} from "../domain/contact.types.ts";
+import {useEffect, useState} from "react";
 import {activity} from "../activity";
+import {readWidgetConfig} from "../ContactUsConfig.ts";
+import type {ContactUsConfig} from "../domain/contact.types.ts";
 
 export function useWidgetConfig(
     host: HTMLElement
-): ContactUsConfig | null {
-    return useMemo(() => {
-        const baseConfig = readWidgetConfig(host);
-        const integrationConfig = readIntegrationConfig()
+): {
+    config: ContactUsConfig | null;
+    error: Error | null;
+    loading: boolean;
+} {
 
-        if (!baseConfig) {
-            activity('bootstrap', 'Widget is not correctly configured', null, 'error');
-            return null;
+    const [config, setConfig] = useState<ContactUsConfig | null>(null);
+    const [error, setError] = useState<Error | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        async function bootstrap() {
+            try {
+                setLoading(true);
+                const resolved = await readWidgetConfig(host);
+
+                if (!cancelled) {
+                    setConfig(resolved);
+                    setError(null);
+                }
+            } catch (err) {
+                activity('bootstrap', 'Config error', {
+                    error: (err as Error).message
+                });
+
+                if (!cancelled) {
+                    setError(err as Error);
+                    setConfig(null);
+                }
+            } finally {
+                if (!cancelled) setLoading(false);
+            }
         }
 
-        activity('bootstrap', 'Widget config loaded', {
-            ...baseConfig,
-            cloudflareKey: integrationConfig.integrations.cloudflare.siteKey
-        });
+        bootstrap();
 
-        return {
-            ...baseConfig,
-            cloudflareKey: integrationConfig.integrations.cloudflare.siteKey
-        }
+        return () => {
+            cancelled = true;
+        };
+
     }, [host]);
+
+    return { config, error, loading };
 }
 
 
