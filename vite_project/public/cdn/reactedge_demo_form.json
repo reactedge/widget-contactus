@@ -1,0 +1,23 @@
+{
+  "data": {
+    "title": "Get Access to a Live demo",
+    "intro": "Submit your details to receive a tailored link of our Magento demo environment based on your area of interest.",
+    "endpoint": "https://reactedge.net/wp-json/contact/v1/send",
+    "categories": [
+      { "value": "intent", "label": "AI Intent Discovery" },
+      { "value": "navigation", "label": "Navigation / Menu" },
+      { "value": "storefinder", "label": "Store Finder" },
+      { "value": "booking", "label": "Booking / Calendar" },
+      { "value": "performance", "label": "Performance / Frontend optimisation" },
+      { "value": "architecture", "label": "Architecture / Decoupling strategy" }
+    ],
+    "fields": [
+      { "name": "name", "label": "Your name", "required": true },
+      { "name": "email", "label": "Email", "type": "email", "required": true },
+      { "name": "message", "label": "Message", "type": "textarea", "required": true }
+    ]
+  },
+  "integrations": {
+    "require": ["cloudflare"]
+  }
+}
