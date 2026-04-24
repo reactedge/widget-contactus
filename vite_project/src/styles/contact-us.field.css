@@ -21,7 +21,8 @@ textarea {
 }
 
 select {
-    padding: 1rem 0.7rem;
+    padding: 0.70rem;
+    background: #fff;
 }
 
 .contact__actions {

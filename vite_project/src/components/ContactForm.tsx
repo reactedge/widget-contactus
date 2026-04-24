@@ -33,11 +33,8 @@ export function ContactForm({
             }}
             data-contact-form
         >
-            {config.title && <h1 data-contact-title>{config.title}</h1>}
-            {config.intro && <p>{config.intro}</p>}
-
             {config.categories && onCategoryChange && (
-                <div>
+                <div className="contact__field">
                     <label>Reason</label>
                     <select
                         value={category || ""}
