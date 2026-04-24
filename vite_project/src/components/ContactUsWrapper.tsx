@@ -6,6 +6,7 @@ import {Turnstile} from "../security/Turnstile.tsx";
 import type {ContactUsConfig} from "../domain/contact.types.ts";
 import {activity} from "../activity";
 import {useSystemState} from "../state/System/useSystemState.ts";
+import {ContactHeader} from "./ContactHeader.tsx";
 
 type Props = {
     config: ContactUsConfig;
@@ -40,6 +41,7 @@ export function ContactUsWrapper({ config }: Props) {
 
     return (
         <>
+            <ContactHeader config={config} />
             {/* 1. The form */}
             <ContactForm
                 config={config}
