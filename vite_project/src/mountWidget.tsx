@@ -3,6 +3,8 @@ import ContactUsWidget from "./ContactUsWidget.tsx";
 import {activity} from "./activity";
 import {getMountedHost} from "./widget-runtime/lib/hostReader.ts";
 
+import './styles/contactus.css'
+
 export const WIDGET_ID = 'contactus';
 
 export async function mountWidget(hostElement: HTMLElement) {
