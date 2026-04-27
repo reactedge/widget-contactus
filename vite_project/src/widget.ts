@@ -1,6 +1,12 @@
-import { mountWidget } from "./mountWidget";
+import {mountWidget, WIDGET_ID} from "./mountWidget";
 import type {ContactUsRawConfig} from "./domain/contact.types.ts";
 
-export async function mount(el: HTMLElement, config?: ContactUsRawConfig) {
+const mount = async (el: HTMLElement, config?: ContactUsRawConfig) => {
     await mountWidget(el, config)
 }
+
+const api = { mount };
+
+(window as any)[`ReactEdge_${WIDGET_ID}`] = api;
+
+export { mount };
