@@ -1,17 +1,16 @@
-import {useWidgetConfig} from "./hooks/useWidgetConfig.ts";
 import {SystemStateProvider} from "./state/System/SystemStateProvider.tsx";
 import {ContactUsWrapper} from "./components/ContactUsWrapper.tsx";
-import {ErrorState} from "./components/global/ErrorState.tsx";
+import type {ContactUsRawConfig} from "./domain/contact.types.ts";
+import {readWidgetConfig} from "./ContactUsConfig.ts";
 
 type Props = {
-    host: HTMLElement
+    rawConfig?: ContactUsRawConfig
 }
 
-export default function ContactUsWidget({host}: Props) {
-    const {config, error} = useWidgetConfig(host);
+export default function ContactUsWidget({rawConfig}: Props) {
+    const config = readWidgetConfig(rawConfig);
 
     if (!config) return null;
-    if (error) return <ErrorState error={error}  />
 
     return <SystemStateProvider config={config}>
         <ContactUsWrapper config={config} />

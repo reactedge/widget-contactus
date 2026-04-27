@@ -1,9 +1,6 @@
 import { mountWidget } from "./mountWidget";
+import type {ContactUsRawConfig} from "./domain/contact.types.ts";
 
-class ContactusWidget extends HTMLElement {
-    connectedCallback() {
-        mountWidget(this);
-    }
+export async function mount(el: HTMLElement, config?: ContactUsRawConfig) {
+    await mountWidget(el, config)
 }
-
-customElements.define("contactus-widget", ContactusWidget);

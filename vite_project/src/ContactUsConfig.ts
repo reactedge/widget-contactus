@@ -1,23 +1,18 @@
 import type {ContactUsConfig, ContactUsRawConfig, IntegrationConfig} from "./domain/contact.types.ts";
 import {WIDGET_ID} from "./mountWidget.tsx";
-import {loadContract} from "./widget-runtime/lib/contractLoader.ts";
 import {activity} from "./activity";
 
-export async function readWidgetConfig(
-    hostElement: HTMLElement
-): Promise<ContactUsConfig> {
+export function readWidgetConfig(
+    rawConfig?: ContactUsRawConfig
+): ContactUsConfig {
 
-    let contract = null
-    try {
-        contract = await loadContract(hostElement);
-    } catch (e) {
+    let contract = rawConfig
+    if (contract === null) {
         contract = readFallbackWidgetConfig()
     }
 
     const runtime = readIntegrationConfig();
-    const resolved = resolveWidgetConfig(contract, runtime);
-
-    console.log('contact resolved', contract)
+    const resolved = resolveWidgetConfig(contract as ContactUsRawConfig, runtime);
 
     activity('bootstrap', 'Widget config', resolved);
 
@@ -39,33 +34,21 @@ export function resolveWidgetConfig(contract: ContactUsRawConfig, runtime: Integ
     return resolved
 }
 
-export function readFallbackWidgetConfig(): ContactUsConfig | null {
+export function readFallbackWidgetConfig(): ContactUsRawConfig {
     const configScript = document.querySelector<HTMLScriptElement>(
-        'script[type="application/json"][contactus-data-config]'
+        `script[type="application/json"][${WIDGET_ID}-data-config]`
     );
 
     if (!configScript) {
-        throw new Error(`${WIDGET_ID} widget requires a <script contactus-data-config> block.`);
+        throw new Error(`${WIDGET_ID} widget requires a <script ${WIDGET_ID}-data-config> block.`);
     }
 
     try {
         const parsed = JSON.parse(configScript.textContent || "{}");
 
-        return Object.freeze({
-            title: parsed.data.title,
-            intro: parsed.data.intro,
-            endpoint: parsed.data.endpoint ?? null,
-            categories: parsed.data.categories ?? [],
-            fields: parsed.data.fields ?? []
-        });
+        return Object.freeze(parsed);
     } catch {
-        return {
-            title: '',
-            intro: '',
-            endpoint: null,
-            categories: [],
-            fields: []
-        };
+        throw new Error(`${WIDGET_ID} widget invalid data`);
     }
 }
 
