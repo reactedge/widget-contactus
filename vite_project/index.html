@@ -1,74 +1,97 @@
+<!DOCTYPE html>
+<html>
 <body>
+
+<h2>contactus x2 Test</h2>
+
+
 <script type="module">
-    export const registry = {
-        contactus: {
-            cdn: '/cdn/default.json'
-        }
-    };
-
     import { mount } from './src/widget.ts';
-    import {loadContractByName} from './src/widget-runtime/lib/contractLoader.ts';
 
-    const el = document.querySelector('contactus-widget');
+    function pickRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-    const config = null;// await loadContractByName('contactus', registry);
+    const widths = [280, 320, 480, 768, 1024, 1440];
 
-    mount(el, config);
+    const root = document.getElementById('root');
+
+    const instances = 10 + Math.floor(Math.random() * 10);
+
+    for (let i = 0; i < instances; i++) {
+        const container = document.createElement('div');
+
+        const width = pickRandom(widths);
+        container.style.width = width + 'px';
+        container.style.margin = '10px';
+        container.style.border = '1px dashed #ccc';
+
+        const el = document.createElement('contactus-widget');
+        container.appendChild(el);
+        root.appendChild(container);
+    }
+
+    const elements = Array.from(document.querySelectorAll('contactus-widget'));
+
+    function delay(ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    await Promise.all(
+        elements.map(async (el) => {
+            await delay(Math.random() * 300);
+
+            requestAnimationFrame(() => {
+                mount(el, null);
+            });
+        })
+    );
 </script>
 
-<div class="contact-form">
-    <div data-widget-container="contactus"
-        data-load="eager"
-        data-page="contact"
-        data-src="https://widget.contactus.co.uk:8448/widget-contact-us.iife.js"
-    >
-        <contactus-widget>
-        </contactus-widget>
+<div id="root"></div>
+<div id="contactus-turnstile"></div>
 
-        <script type="application/json" contactus-data-config>
-            {
-                "data": {
-                    "title": "Contact us",
-                    "intro": "Got a question about solar, electrical work, or how we can help your home or business? Our friendly team is here to help. Reach out today—we’ll reply within one business day.",
-                    "endpoint": "https://scsolarltd.co.uk/wp-json/contact/v1/send",
-                    "categories": [
-                        {
-                            "value": "general",
-                            "label": "General enquiry"
-                        },
-                        {
-                            "value": "quote",
-                            "label": "Request a quote"
-                        }
-                    ],
-                    "fields": [
-                        {
-                            "name": "name",
-                            "label": "Your name",
-                            "required": true
-                        },
-                        {
-                            "name": "email",
-                            "label": "Email",
-                            "type": "email",
-                            "required": true
-                        },
-                        {
-                            "name": "message",
-                            "label": "Message",
-                            "type": "textarea",
-                            "required": true
-                        }
-                    ]
+<script type="application/json" contactus-data-config>
+    {
+        "data": {
+            "title": "Contact us",
+            "intro": "Got a question about solar, electrical work, or how we can help your home or business? Our friendly team is here to help. Reach out today—we’ll reply within one business day.",
+            "endpoint": "https://scsolarltd.co.uk/wp-json/contact/v1/send",
+            "categories": [
+                {
+                    "value": "general",
+                    "label": "General enquiry"
                 },
-                "integrations": {
-                    "require": ["cloudflare"]
+                {
+                    "value": "quote",
+                    "label": "Request a quote"
                 }
-            }
-        </script>
-    </div>
-    <div id="contactus-turnstile"></div>
-</div>
+            ],
+            "fields": [
+                {
+                    "name": "name",
+                    "label": "Your name",
+                    "required": true
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "type": "email",
+                    "required": true
+                },
+                {
+                    "name": "message",
+                    "label": "Message",
+                    "type": "textarea",
+                    "required": true
+                }
+            ]
+        },
+        "integrations": {
+            "require": ["cloudflare"]
+        }
+    }
+</script>
 
 <script type="application/json" id="reactedge-runtime">
     {
@@ -81,3 +104,4 @@
 </script>
 
 </body>
+</html>

@@ -5,7 +5,6 @@ import {activity} from "./activity";
 export function readWidgetConfig(
     rawConfig?: ContactUsRawConfig
 ): ContactUsConfig {
-
     let contract = rawConfig
     if (contract === null) {
         contract = readFallbackWidgetConfig()
