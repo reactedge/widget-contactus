@@ -55,19 +55,19 @@ jobs:
 
           ssh ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }} \
           "mkdir -p $DEST"
-      
+          
           FILE="${{ steps.prepare_artifact.outputs.file }}"
-      
+          
           if [ -z "$FILE" ]; then
             echo "ERROR: file output is empty"
             exit 1
           fi
-      
+          
           rsync -av --chown=www-data:www-data \
             "$FILE" \
             "www/widget-${WIDGET_NAME}.manifest.json" \
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:$DEST/
-      
+          
           rsync -avz \
             www/cdn/ \
             ${{ secrets.WIDGET_SSH_USER }}@${{ secrets.WIDGET_SSH_HOST }}:$DEST/cdn/
