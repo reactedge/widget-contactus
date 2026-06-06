@@ -13,7 +13,7 @@ export default defineConfig({
     'process.env': {}
   },
   build: {
-    outDir: "../www",
+    outDir: `../../widgets-cdn/www/${widgetName}/src/`,
     cssCodeSplit: true,
     emptyOutDir: false,
     lib: {
